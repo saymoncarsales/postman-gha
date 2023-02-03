@@ -4,53 +4,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  smoketests:
-    runs-on: ubuntu-latest
-    steps:
+ smoketests:
+  runs-on: ubuntu-latest
+  
+  steps:
       - name: checkout
         uses: actions/checkout@master
-    
-# INstall Node on the runner
-      - name: Install Node
-        uses: actions/setup-node@v1
-        with: 
-         node-version: '16.x'
-    
-    # Install the newman command line utility and also install the html extra reporter
-      - name: Install newman
-        run: |
-         npm install newman     
-         
-      - name: Install newman-reporter-htmlextra
-        run: |
-         npm i -g newman-reporter-htmlextra
-
-    # Make directory to upload the test results
-      - name: Make Directory for results
-        run: mkdir -p testResults
-        
-    # Run the POSTMAN collection
-      - name: Run POSTMAN collection
-        run: |
-         newman run Petstore.postman_collection.json -e Petstorenv.postman_environment.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html
-         cd testResults
-         ls -a
-
-    # Upload the contents of Test Results directory to workspace
-      - name: Output the run Details
-        uses: actions/upload-artifact@v3
-        with: 
-         name: RunReports
-         path: testResults
-         
-    # Slack Notifications
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
-        env:
-         SLACK_CHANNEL: general
-         SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
-         SLACK_ICON: https://github.com/rtCamp.png?size=48
-         SLACK_MESSAGE: 'Post Content :rocket:'
-         SLACK_TITLE: Post Title
-         SLACK_USERNAME: rtCamp
-         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      
+      - name: Sourcing Private API - PROD Tests
+        uses: matt-ball/newman-action@master
+        with:
+          collection: dealer.qa.sourcing.private.api.smoke.test.postman_collection.json
+          environment: dealer.qa.sourcing.private.api.smoke.data.PROD.postman_environment.json
