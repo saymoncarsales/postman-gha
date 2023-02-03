@@ -30,6 +30,8 @@ jobs:
       - name: Run POSTMAN collection
         run: |
          newman run Petstore.postman_collection.json -e Petstorenv.postman_environment.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html
+         cd testResults
+         ls -a
 
     # Upload the contents of Test Results directory to workspace
       - name: Output the run Details
