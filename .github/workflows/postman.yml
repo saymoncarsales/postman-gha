@@ -14,5 +14,5 @@ jobs:
       - name: Sourcing Private API - PROD Tests
         uses: matt-ball/newman-action@master
         with:
-          collection: dealer.qa.sourcing.private.api.smoke.test.postman_collection.json
-          environment: dealer.qa.sourcing.private.api.smoke.data.PROD.postman_environment.json
+          collection: Petstore.postman_collection.json
+          environment: Petstorenv.postman_environment.json
