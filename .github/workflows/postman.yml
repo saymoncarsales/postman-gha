@@ -23,7 +23,7 @@ jobs:
          
       - name: Install newman-reporter-htmlextra
         run: |
-         npm install newman-reporter-htmlextra
+         npm i -g newman-reporter-htmlextra
 
     # Make directory to upload the test results
       - name: Make Directory for results
